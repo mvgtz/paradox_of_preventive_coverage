@@ -561,7 +561,15 @@
   }
   .chat-feature-text { font-size: 0.875rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
   .chat-feature-text strong { font-weight: 500; color: var(--ink); }
+  .msg-bot strong { font-weight: 500; }
+  .msg-bot em { font-style: italic; }
+  .msg-bot ul, .msg-bot ol { margin: 0.5rem 0 0.5rem 1.25rem; }
+  .msg-bot li { margin-bottom: 0.25rem; }
+  .msg-bot p { margin-bottom: 0.5rem; }
+  .msg-bot p:last-child { margin-bottom: 0; }
+  .msg-bot code { font-family: var(--mono); font-size: 0.85em; background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; }  
 
+  
   /* Chat UI */
   .chat-ui {
     background: var(--smoke);
@@ -1120,12 +1128,29 @@
     const msgs = document.getElementById('chat-messages');
     const div = document.createElement('div');
     div.className = `msg msg-${role === 'user' ? 'user' : 'bot'}`;
-    div.textContent = text;
+    if (role === 'user') {
+      div.textContent = text;
+    } else {
+      div.innerHTML = text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/`(.+?)`/g, '<code>$1</code>')
+        .replace(/^### (.+)$/gm, '<strong>$1</strong>')
+        .replace(/^## (.+)$/gm, '<strong>$1</strong>')
+        .replace(/^• (.+)$/gm, '<li>$1</li>')
+        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^(.+)$/gm, (line) => line.startsWith('<') ? line : `<p>${line}</p>`)
+        .replace(/<p><\/p>/g, '');
+    }
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
     return div;
   }
-
+  
   function showTyping() {
     const msgs = document.getElementById('chat-messages');
     const div = document.createElement('div');
