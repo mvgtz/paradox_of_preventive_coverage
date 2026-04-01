@@ -686,37 +686,7 @@
     background: white;
     border-top: 1px solid rgba(0,0,0,0.04);
   }
-  .api-key-bar {
-    padding: 0.75rem 1.5rem;
-    background: #fff8f3;
-    border-bottom: 1px solid rgba(232,119,34,0.15);
-    display: flex; gap: 0.5rem; align-items: center;
-  }
-  .api-key-input {
-    flex: 1;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 4px;
-    padding: 0.4rem 0.75rem;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink);
-    outline: none;
-    background: white;
-    transition: border-color 0.2s;
-  }
-  .api-key-input:focus { border-color: var(--orange); }
-  .api-key-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
-  .api-provider-select {
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 4px;
-    padding: 0.4rem 0.5rem;
-    font-family: var(--sans);
-    font-size: 11px;
-    color: var(--ink);
-    background: white;
-    outline: none;
-    cursor: pointer;
-  }
+
 
   /* ── AUTHORS ── */
   #about {
@@ -1062,14 +1032,7 @@
     </div>
 
     <div class="chat-ui reveal reveal-delay-2">
-      <div class="api-key-bar">
-        <span class="api-key-label">Provider:</span>
-        <select class="api-provider-select" id="provider-select">
-          <option value="claude">Claude (Anthropic)</option>
-          <option value="openai">ChatGPT (OpenAI)</option>
-        </select>
-        <input class="api-key-input" type="password" id="api-key-input" placeholder="Paste your API key here (sk-...)" />
-      </div>
+
       <div class="chat-header">
         <div class="chat-dot"></div>
         <div class="chat-header-title">Coverage &amp; Screening Assistant</div>
@@ -1140,21 +1103,8 @@
   revealEls.forEach(el => observer.observe(el));
 
   // ── CHAT ──
-  const SYSTEM_PROMPT = `You are a knowledgeable, empathetic health policy assistant helping everyday Americans understand their insurance coverage under the Affordable Care Act (ACA). You specialize in:
-
-1. PREVENTIVE CARE COVERAGE: Explaining which USPSTF Grade A and B services must be covered at zero cost-sharing under ACA Section 2713. Key screenings include: colorectal cancer (colonoscopy or stool test for adults 45+), mammography (women 40+), cervical cancer (Pap smear, HPV test), lung cancer (low-dose CT for heavy smokers 50-80), osteoporosis, diabetes, hypertension, depression, obesity, STIs, and many more.
-
-2. FLORIDA-SPECIFIC CONTEXT: Florida has not expanded Medicaid. Florida SB 158 (effective Jan 2026) eliminates cost-sharing for supplemental breast imaging follow-up on state-regulated plans only (not ERISA employer plans). 15.5% of working-age Floridians are uninsured.
-
-3. BILLING TRAPS: Explain the dual billing trap (CPT modifier -25, when a symptom mentioned in a preventive visit triggers a separate E&M charge), the diagnostic reclassification trap (when a colonoscopy finds a polyp and is reclassified as diagnostic), and the age gap (under-45 adults not covered despite rising CRC rates).
-
-4. MEDICATIONS & PROCEDURES: Explain that preventive medications (like statins for high-risk patients, PrEP for HIV prevention, aspirin for certain adults, tobacco cessation medications) may be covered at no cost under ACA. Diagnostic procedures (triggered by symptoms or abnormal results) typically are NOT covered at zero cost and subject to deductibles.
-
-5. HOW TO ADVOCATE: Advise patients to ask their insurer in writing about coverage BEFORE a visit, request itemized bills, appeal unexpected charges, and ask their provider to code visits correctly.
-
-Keep answers clear, friendly, and accessible — avoid medical jargon when possible. Always end responses with a brief reminder that you provide general information only, and encourage them to verify with their specific insurer and consult a healthcare provider for personal medical decisions.
-
-When uncertain about a specific plan's details, say so clearly and explain what the ACA requires versus what individual plans may vary.`;
+  // !! REPLACE THIS URL with your Render backend URL after deploying !!
+  const BACKEND_URL = 'https://paradox-of-preventive-coverage.onrender.com';
 
   let chatHistory = [];
 
@@ -1194,15 +1144,8 @@ When uncertain about a specific plan's details, say so clearly and explain what 
   async function sendMessage() {
     const input = document.getElementById('chat-input');
     const sendBtn = document.getElementById('chat-send');
-    const apiKey = document.getElementById('api-key-input').value.trim();
-    const provider = document.getElementById('provider-select').value;
     const text = input.value.trim();
-
     if (!text) return;
-    if (!apiKey) {
-      appendMsg('bot', 'Please paste your API key in the field above to use the assistant. Your key is never stored — it stays in your browser only.');
-      return;
-    }
 
     input.value = '';
     sendBtn.disabled = true;
@@ -1211,54 +1154,19 @@ When uncertain about a specific plan's details, say so clearly and explain what 
     showTyping();
 
     try {
-      let reply = '';
-
-      if (provider === 'claude') {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
-          body: JSON.stringify({
-            model: 'claude-opus-4-5',
-            max_tokens: 600,
-            system: SYSTEM_PROMPT,
-            messages: chatHistory
-          })
-        });
-        const data = await res.json();
-        if (data.error) throw new Error(data.error.message);
-        reply = data.content[0].text;
-
-      } else {
-        const msgs = [{ role: 'system', content: SYSTEM_PROMPT }, ...chatHistory];
-        const res = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            max_tokens: 600,
-            messages: msgs
-          })
-        });
-        const data = await res.json();
-        if (data.error) throw new Error(data.error.message);
-        reply = data.choices[0].message.content;
-      }
-
-      chatHistory.push({ role: 'assistant', content: reply });
+      const res = await fetch(BACKEND_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      chatHistory.push({ role: 'assistant', content: data.reply });
       removeTyping();
-      appendMsg('bot', reply);
-
+      appendMsg('bot', data.reply);
     } catch (err) {
       removeTyping();
-      appendMsg('bot', `⚠️ Error: ${err.message}. Please check your API key and try again.`);
+      appendMsg('bot', `⚠️ Could not reach the assistant: ${err.message}. Please try again shortly.`);
     }
 
     sendBtn.disabled = false;
