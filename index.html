@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Paradox of Preventive Coverage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E87722;
+    --orange-light: #F5A855;
+    --orange-pale: #FEF3E8;
+    --black: #0D0D0D;
+    --charcoal: #1A1A1A;
+    --ink: #2C2C2C;
+    --muted: #6B6B6B;
+    --silver: #C8C8C8;
+    --smoke: #F2F0ED;
+    --white: #FAFAFA;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--smoke); }
+  ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+
+  /* ── SELECTION ── */
+  ::selection { background: var(--orange); color: white; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+    background: rgba(250,250,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange);
+    color: white !important;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--orange-light) !important; color: white !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 64px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 5rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--orange);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--orange);
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--orange);
+    position: relative;
+  }
+  .hero-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #d06a1a; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--silver);
+    padding: 13px 24px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+  .hero-meta {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    display: flex; gap: 2.5rem;
+  }
+  .hero-meta-item { font-size: 12px; color: var(--muted); }
+  .hero-meta-item strong { display: block; font-size: 13px; color: var(--ink); font-weight: 500; margin-bottom: 2px; }
+
+  .hero-right {
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(232,119,34,0.25) 0%, transparent 60%);
+  }
+  .hero-stat-grid {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    width: 100%;
+  }
+  .hero-stat {
+    padding: 3rem 2.5rem;
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .hero-stat:hover { background: #222; }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .hero-stat-label {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+    max-width: 160px;
+  }
+  .hero-stat-tag {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--orange);
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: white;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0 3rem;
+  }
+  .ticker-item::after {
+    content: '◆';
+    margin-left: 3rem;
+    opacity: 0.5;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 7rem 5rem; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--orange);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--orange);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+  .section-body {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 560px;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* ── PROBLEM SECTION ── */
+  #problem {
+    background: var(--smoke);
+    padding: 7rem 5rem;
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    margin-top: 4rem;
+    align-items: start;
+  }
+  .problem-intro { max-width: 100%; }
+  .problem-cards { display: flex; flex-direction: column; gap: 0; }
+  .failure-card {
+    border-left: 3px solid transparent;
+    padding: 2rem 2.5rem;
+    background: white;
+    margin-bottom: 1px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .failure-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--orange);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .failure-card:hover::before { transform: scaleY(1); }
+  .failure-card:hover { box-shadow: 4px 0 20px rgba(232,119,34,0.1); }
+  .failure-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .failure-title {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 0.75rem;
+  }
+  .failure-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .failure-stat {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--orange-pale);
+    color: var(--orange);
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── DATA SECTION ── */
+  #data {
+    background: var(--charcoal);
+    padding: 7rem 5rem;
+  }
+  #data .section-title { color: white; }
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    margin-top: 4rem;
+  }
+  .data-card {
+    background: var(--charcoal);
+    padding: 3rem 2.5rem;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .data-card:hover { background: #1f1f1f; }
+  .data-big {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .data-unit {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .data-desc {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ── REFORMS SECTION ── */
+  #reforms { background: white; }
+  .reforms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--smoke);
+    margin-top: 4rem;
+  }
+  .reform-card {
+    background: white;
+    padding: 3rem;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+  .reform-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 3rem; right: 3rem;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .reform-card:hover::after { transform: scaleX(1); }
+  .reform-card:hover { background: var(--orange-pale); }
+  .reform-num {
+    font-family: var(--serif);
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(232,119,34,0.12);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .reform-title {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .reform-body {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .reform-tag {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── FLORIDA CONTEXT ── */
+  #florida {
+    background: var(--smoke);
+    padding: 7rem 5rem;
+  }
+  .florida-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+  .florida-facts { display: flex; flex-direction: column; gap: 1.5rem; }
+  .florida-fact {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+  .florida-fact:last-child { border-bottom: none; padding-bottom: 0; }
+  .florida-fact-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .florida-fact-text { font-size: 0.875rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
+  .florida-callout {
+    background: var(--charcoal);
+    padding: 3.5rem;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .florida-callout::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--orange);
+  }
+  .florida-quote {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+  .florida-quote em {
+    font-style: normal;
+    color: var(--orange-light);
+  }
+  .florida-attr {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── AI CHAT SECTION ── */
+  #chat { background: white; padding: 7rem 5rem; }
+  .chat-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    margin-top: 4rem;
+    align-items: start;
+  }
+  .chat-info { position: sticky; top: 100px; }
+  .chat-info .section-body { margin-bottom: 2rem; }
+  .chat-feature {
+    display: flex; gap: 1rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+  .chat-feature-icon {
+    width: 32px; height: 32px;
+    background: var(--orange-pale);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .chat-feature-text { font-size: 0.875rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+  .chat-feature-text strong { font-weight: 500; color: var(--ink); }
+
+  /* Chat UI */
+  .chat-ui {
+    background: var(--smoke);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 580px;
+    border: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.06);
+  }
+  .chat-header {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+  .chat-header-title { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .chat-header-sub { font-size: 11px; color: var(--muted); margin-left: auto; font-family: var(--mono); }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--silver); }
+  .msg {
+    max-width: 85%;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg-bot {
+    background: white;
+    color: var(--ink);
+    align-self: flex-start;
+    border: 1px solid rgba(0,0,0,0.07);
+    font-weight: 300;
+  }
+  .msg-user {
+    background: var(--orange);
+    color: white;
+    align-self: flex-end;
+    font-weight: 400;
+  }
+  .msg-typing {
+    background: white;
+    color: var(--muted);
+    align-self: flex-start;
+    border: 1px solid rgba(0,0,0,0.07);
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+  .chat-quick-prompts {
+    padding: 0 1.5rem 0.75rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+  }
+  .quick-chip {
+    font-size: 11px;
+    padding: 5px 10px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 20px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: var(--sans);
+    white-space: nowrap;
+  }
+  .quick-chip:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-pale); }
+  .chat-form {
+    padding: 1rem 1.5rem;
+    background: white;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    display: flex; gap: 0.5rem;
+  }
+  .chat-input {
+    flex: 1;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    padding: 0.6rem 0.9rem;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--smoke);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+    height: 40px;
+  }
+  .chat-input:focus { border-color: var(--orange); background: white; }
+  .chat-send {
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0 1rem;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .chat-send:hover { background: #d06a1a; }
+  .chat-send:disabled { background: var(--silver); cursor: not-allowed; }
+  .chat-disclaimer {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    padding: 0.4rem 1.5rem 0.6rem;
+    background: white;
+    border-top: 1px solid rgba(0,0,0,0.04);
+  }
+  .api-key-bar {
+    padding: 0.75rem 1.5rem;
+    background: #fff8f3;
+    border-bottom: 1px solid rgba(232,119,34,0.15);
+    display: flex; gap: 0.5rem; align-items: center;
+  }
+  .api-key-input {
+    flex: 1;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink);
+    outline: none;
+    background: white;
+    transition: border-color 0.2s;
+  }
+  .api-key-input:focus { border-color: var(--orange); }
+  .api-key-label { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .api-provider-select {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    padding: 0.4rem 0.5rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--ink);
+    background: white;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* ── AUTHORS ── */
+  #about {
+    background: var(--smoke);
+    padding: 5rem;
+  }
+  .authors-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: rgba(0,0,0,0.05);
+    margin-top: 3rem;
+    max-width: 700px;
+  }
+  .author-card {
+    background: white;
+    padding: 2rem 2.5rem;
+    transition: background 0.2s;
+  }
+  .author-card:hover { background: var(--orange-pale); }
+  .author-role {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--orange);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .author-name {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 0.25rem;
+  }
+  .author-affil {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    padding: 3rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .footer-brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .footer-brand strong { display: block; color: var(--orange); font-size: 13px; margin-bottom: 4px; }
+  .footer-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    max-width: 360px;
+    line-height: 1.6;
+    font-weight: 300;
+    text-align: right;
+  }
+
+  /* ── ANIMATIONS ON SCROLL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 50vw; }
+    .hero-left { padding: 4rem 2rem; }
+    section { padding: 5rem 2rem; }
+    #problem, #florida, #about, footer { padding: 5rem 2rem; }
+    #data, #chat { padding: 5rem 2rem; }
+    .problem-grid, .florida-grid, .chat-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+    .reforms-grid { grid-template-columns: 1fr; }
+    .data-grid { grid-template-columns: 1fr; }
+    .authors-grid { grid-template-columns: 1fr; max-width: 100%; }
+    .hero-stat-grid { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; }
+    .footer-note { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">OCOM · Health Policy</a>
+  <ul class="nav-links">
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#reforms">Reforms</a></li>
+    <li><a href="#florida">Florida</a></li>
+    <li><a href="#chat" class="nav-cta">Ask the AI ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Health Policy Research · 2026</div>
+    <h1 class="hero-title">The Paradox of<br><em>Preventive</em><br>Coverage</h1>
+    <p class="hero-subtitle">Financial barriers and guideline lags are quietly preventing Floridians from accessing cancer screenings the law says they should receive for free.</p>
+    <div class="hero-actions">
+      <a href="#chat" class="btn-primary">Check Your Coverage ↗</a>
+      <a href="#problem" class="btn-ghost">Read the Research</a>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <strong>Orlando College of Osteopathic Medicine</strong>
+        Health Policy Competition · 2026
+      </div>
+      <div class="hero-meta-item">
+        <strong>Focus Area</strong>
+        ACA · Colorectal Cancer Screening
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat-grid">
+      <div class="hero-stat reveal">
+        <div class="hero-stat-tag">Rising</div>
+        <div class="hero-stat-num">3%</div>
+        <div class="hero-stat-label">annual rise in CRC incidence among adults under 50</div>
+      </div>
+      <div class="hero-stat reveal reveal-delay-1">
+        <div class="hero-stat-tag">Florida</div>
+        <div class="hero-stat-num">15.5%</div>
+        <div class="hero-stat-label">of working-age adults uninsured — 4.2 pts above national avg</div>
+      </div>
+      <div class="hero-stat reveal reveal-delay-2">
+        <div class="hero-stat-tag">Cost Barrier</div>
+        <div class="hero-stat-num">46%</div>
+        <div class="hero-stat-label">of insured Americans delayed care due to cost in 2022</div>
+      </div>
+      <div class="hero-stat reveal reveal-delay-3">
+        <div class="hero-stat-tag">Follow-up Gap</div>
+        <div class="hero-stat-num">56%</div>
+        <div class="hero-stat-label">non-completion rate after a positive stool test</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">ACA Section 2713</span>
+    <span class="ticker-item">USPSTF Grade A/B Mandates</span>
+    <span class="ticker-item">Kennedy v. Braidwood 2025</span>
+    <span class="ticker-item">Florida SB 158 · Jan 2026</span>
+    <span class="ticker-item">Colorectal Cancer Screening</span>
+    <span class="ticker-item">Zero-Cost-Share Coverage</span>
+    <span class="ticker-item">Preventive Care Reform</span>
+    <span class="ticker-item">ACA Section 2713</span>
+    <span class="ticker-item">USPSTF Grade A/B Mandates</span>
+    <span class="ticker-item">Kennedy v. Braidwood 2025</span>
+    <span class="ticker-item">Florida SB 158 · Jan 2026</span>
+    <span class="ticker-item">Colorectal Cancer Screening</span>
+    <span class="ticker-item">Zero-Cost-Share Coverage</span>
+    <span class="ticker-item">Preventive Care Reform</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="problem-grid">
+    <div class="problem-intro">
+      <div class="section-label reveal">The Problem</div>
+      <h2 class="section-title reveal reveal-delay-1">Three structural failures</h2>
+      <p class="section-body reveal reveal-delay-2">The ACA mandates zero-cost preventive care, but three legal and billing loopholes mean patients still pay — often without warning, and at precisely the moments they most need care.</p>
+    </div>
+    <div class="problem-cards">
+      <div class="failure-card reveal">
+        <div class="failure-num">Failure 01</div>
+        <div class="failure-title">The Age Gap</div>
+        <div class="failure-desc">USPSTF lowered the colorectal cancer screening age from 50 to 45 in 2021, but adults aged 20–44 remain entirely excluded from zero-cost-share protection — even those with documented hereditary risk. This is a policy gap, not a billing error.</div>
+        <div class="failure-stat">CRC is now the #1 cancer killer under 50</div>
+      </div>
+      <div class="failure-card reveal reveal-delay-1">
+        <div class="failure-num">Failure 02</div>
+        <div class="failure-title">The Dual Billing Trap</div>
+        <div class="failure-desc">When a patient mentions a symptom during a preventive visit, insurers may split the visit into two charges — applying a separate Evaluation &amp; Management fee directly to the patient's deductible. Patients arrive expecting $0 and leave with an unexpected bill. No advance notice is required under Florida law.</div>
+        <div class="failure-stat">47% delayed care due to unexpected costs</div>
+      </div>
+      <div class="failure-card reveal reveal-delay-2">
+        <div class="failure-num">Failure 03</div>
+        <div class="failure-title">The Diagnostic Reclassification Trap</div>
+        <div class="failure-desc">When a screening colonoscopy finds a polyp, it is reclassified as "diagnostic" — stripping it of zero-cost-share status. Ancillary charges for bowel prep, anesthesia, and pathology then fall to the patient. The 2023 CAA fixed the colonoscopy itself for most plans, but grandfathered plans and ancillary costs remain unresolved.</div>
+        <div class="failure-stat">53% still pay out-of-pocket for colonoscopy bowel prep</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section id="data">
+  <div class="section-label reveal" style="color:rgba(255,255,255,0.4)">By the Numbers</div>
+  <h2 class="section-title reveal reveal-delay-1">The cost of inaction</h2>
+  <div class="data-grid">
+    <div class="data-card reveal">
+      <div class="data-big">$7,186</div>
+      <div class="data-unit">Avg. Bronze Plan Deductible · 2026</div>
+      <div class="data-desc">Florida ACA marketplace enrollees on Bronze plans face this average deductible before coverage kicks in — a barrier that turns a $24 stool test into a financial deterrent.</div>
+    </div>
+    <div class="data-card reveal reveal-delay-1">
+      <div class="data-big">$150K+</div>
+      <div class="data-unit">Late-Stage CRC Treatment Cost</div>
+      <div class="data-desc">Compared to $9,200 per QALY for mailed FIT testing, the downstream cost of untreated or late-detected colorectal cancer represents a massive, preventable economic burden.</div>
+    </div>
+    <div class="data-card reveal reveal-delay-2">
+      <div class="data-big">27.2%</div>
+      <div class="data-unit">CRC Screening Rate · Uninsured Floridians</div>
+      <div class="data-desc">Uninsured Floridians are screened at less than half the rate of insured residents (72.1%), revealing how insurance status — not clinical need — drives screening behavior.</div>
+    </div>
+    <div class="data-card reveal">
+      <div class="data-big">4.7M</div>
+      <div class="data-unit">Florida ACA Enrollees · 2025</div>
+      <div class="data-desc">Florida leads the nation in ACA marketplace enrollment, making its structural billing failures a particularly high-impact policy problem with national implications.</div>
+    </div>
+    <div class="data-card reveal reveal-delay-1">
+      <div class="data-big">1.1%</div>
+      <div class="data-unit">Annual Rise in CRC Mortality</div>
+      <div class="data-desc">Colorectal cancer mortality is rising 1.1% annually and incidence rising 3% annually in adults 20–49 — while policy guidelines continue to lag clinical evidence.</div>
+    </div>
+    <div class="data-card reveal reveal-delay-2">
+      <div class="data-big">$14–33B</div>
+      <div class="data-unit">Projected Medicare Savings (Goede et al.)</div>
+      <div class="data-desc">Extending CRC screening to adults 50–64 projects $14–33 billion in Medicare savings — underscoring the economic case for closing the age gap, predating the 2021 USPSTF age-45 guideline.</div>
+    </div>
+  </div>
+</section>
+
+<!-- REFORMS -->
+<section id="reforms">
+  <div class="section-label reveal">Proposed Solutions</div>
+  <h2 class="section-title reveal reveal-delay-1">Four targeted reforms</h2>
+  <p class="section-body reveal reveal-delay-2">Each reform targets a specific structural failure with a concrete policy mechanism, grounded in existing precedent or legislation.</p>
+  <div class="reforms-grid">
+    <div class="reform-card reveal">
+      <div class="reform-num">01</div>
+      <div class="reform-title">Expedited USPSTF At-Risk Interim Grade B Pathway</div>
+      <div class="reform-body">Establish a fast-track mechanism for USPSTF to issue Interim Grade B recommendations extending zero-cost-share CRC screening to high-risk adults under 45 — closing the age gap without waiting for full guideline revision cycles.</div>
+      <div class="reform-tag">→ Targets the Age Gap</div>
+    </div>
+    <div class="reform-card reveal reveal-delay-1">
+      <div class="reform-num">02</div>
+      <div class="reform-title">Extend Florida SB 158 to CRC Ancillary Costs</div>
+      <div class="reform-body">Florida SB 158 (effective Jan 2026) eliminated cost-sharing for supplemental breast imaging follow-up. Apply the same model to colonoscopy ancillary costs — bowel prep, anesthesia, and pathology — for state-regulated plans.</div>
+      <div class="reform-tag">→ Targets the Reclassification Trap</div>
+    </div>
+    <div class="reform-card reveal reveal-delay-2">
+      <div class="reform-num">03</div>
+      <div class="reform-title">Bronze Plan CRC Affordability Mandate</div>
+      <div class="reform-body">Require ACA marketplace Bronze plans to cover at minimum one CRC screening modality at zero cost-share annually, regardless of deductible status — eliminating cost as a barrier for the lowest-income insured Floridians.</div>
+      <div class="reform-tag">→ Targets Bronze Plan Exposure</div>
+    </div>
+    <div class="reform-card reveal reveal-delay-3">
+      <div class="reform-num">04</div>
+      <div class="reform-title">FIT Testing at Annual Wellness Visits</div>
+      <div class="reform-body">Mandate FIT stool testing (~$24/test) as a standard component of ACA annual wellness visits. COVID-era bulk procurement modeling suggests unit costs could fall below $5, making early CRC detection affordable at population scale.</div>
+      <div class="reform-tag">→ Targets Access &amp; Cost</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLORIDA -->
+<section id="florida">
+  <div class="florida-grid">
+    <div>
+      <div class="section-label reveal">Florida Context</div>
+      <h2 class="section-title reveal reveal-delay-1">Why Florida amplifies every failure</h2>
+      <div class="florida-facts">
+        <div class="florida-fact reveal reveal-delay-2">
+          <div class="florida-fact-num">15.5%</div>
+          <div class="florida-fact-text">of working-age adults are uninsured — 4.2 percentage points above the national average</div>
+        </div>
+        <div class="florida-fact reveal reveal-delay-2">
+          <div class="florida-fact-num">#47</div>
+          <div class="florida-fact-text">in avoidable hospital admissions nationally, reflecting delayed and foregone preventive care</div>
+        </div>
+        <div class="florida-fact reveal reveal-delay-3">
+          <div class="florida-fact-num">No</div>
+          <div class="florida-fact-text">Medicaid expansion — leaving hundreds of thousands of low-income adults in a coverage gap with no ACA marketplace subsidy eligibility</div>
+        </div>
+        <div class="florida-fact reveal reveal-delay-3">
+          <div class="florida-fact-num">SB 158</div>
+          <div class="florida-fact-text">Signed May 2025, effective Jan 2026 — applies to state-regulated plans only, not ERISA-governed employer plans</div>
+        </div>
+      </div>
+    </div>
+    <div class="florida-callout reveal reveal-delay-1">
+      <div class="florida-quote">"Reforms that <em>work in Florida</em> would work nationally."</div>
+      <p style="font-size:0.875rem; color:rgba(255,255,255,0.5); line-height:1.75; margin-bottom:1.5rem; font-weight:300;">With 4.7 million ACA enrollees — the largest marketplace in the country — Florida is both the highest-stakes testing ground and the best-positioned state to demonstrate that structural billing reform is feasible at scale.</p>
+      <div class="florida-attr">OCOM Health Policy Research · 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- AI CHAT -->
+<section id="chat">
+  <div class="chat-wrapper">
+    <div class="chat-info">
+      <div class="section-label reveal">AI Coverage Assistant</div>
+      <h2 class="section-title reveal reveal-delay-1">Ask about your insurance</h2>
+      <p class="section-body reveal reveal-delay-2">Our AI agent can help you understand what preventive screenings your plan should cover at zero cost, how to interpret your Explanation of Benefits, and what your rights are under the ACA.</p>
+      <div class="chat-feature reveal reveal-delay-2">
+        <div class="chat-feature-icon">🩺</div>
+        <div class="chat-feature-text"><strong>Free screenings</strong> — find out which USPSTF Grade A/B services your plan must cover without cost-sharing based on your age and risk factors.</div>
+      </div>
+      <div class="chat-feature reveal reveal-delay-3">
+        <div class="chat-feature-icon">💊</div>
+        <div class="chat-feature-text"><strong>Medication &amp; procedure costs</strong> — ask whether a specific medication or procedure is likely to be covered preventively or billed as diagnostic.</div>
+      </div>
+      <div class="chat-feature reveal reveal-delay-3">
+        <div class="chat-feature-icon">🛡️</div>
+        <div class="chat-feature-text"><strong>Your ACA rights</strong> — understand billing traps, dual billing, and reclassification, and know what questions to ask your insurer.</div>
+      </div>
+      <p style="font-size:0.75rem; color:var(--muted); margin-top:1.5rem; line-height:1.7;">
+        <strong style="color:var(--ink);">Note:</strong> This tool provides general health policy information only. It is not medical or legal advice. Always consult a qualified healthcare provider for personal medical decisions.
+      </p>
+    </div>
+
+    <div class="chat-ui reveal reveal-delay-2">
+      <div class="api-key-bar">
+        <span class="api-key-label">Provider:</span>
+        <select class="api-provider-select" id="provider-select">
+          <option value="claude">Claude (Anthropic)</option>
+          <option value="openai">ChatGPT (OpenAI)</option>
+        </select>
+        <input class="api-key-input" type="password" id="api-key-input" placeholder="Paste your API key here (sk-...)" />
+      </div>
+      <div class="chat-header">
+        <div class="chat-dot"></div>
+        <div class="chat-header-title">Coverage &amp; Screening Assistant</div>
+        <div class="chat-header-sub">ACA · Florida · USPSTF</div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg msg-bot">Hi! I can help you understand your insurance coverage for preventive screenings, medications, and procedures under the ACA. What would you like to know?</div>
+      </div>
+      <div class="chat-quick-prompts" id="quick-prompts">
+        <button class="quick-chip" onclick="useChip(this)">Is a colonoscopy free?</button>
+        <button class="quick-chip" onclick="useChip(this)">What screenings am I entitled to?</button>
+        <button class="quick-chip" onclick="useChip(this)">What is the dual billing trap?</button>
+        <button class="quick-chip" onclick="useChip(this)">Is my stool test covered?</button>
+        <button class="quick-chip" onclick="useChip(this)">Bronze plan coverage limits?</button>
+        <button class="quick-chip" onclick="useChip(this)">What did Florida SB 158 change?</button>
+      </div>
+      <div class="chat-form">
+        <input class="chat-input" id="chat-input" placeholder="Ask about your coverage..." type="text" />
+        <button class="chat-send" id="chat-send" onclick="sendMessage()">Send →</button>
+      </div>
+      <div class="chat-disclaimer">General information only — not medical or legal advice</div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHORS -->
+<section id="about">
+  <div class="section-label reveal">Research Team</div>
+  <h2 class="section-title reveal reveal-delay-1">About this research</h2>
+  <p class="section-body reveal reveal-delay-2" style="margin-bottom:2.5rem;">This website accompanies an academic health policy research poster submitted for the OCOM Health Policy Competition, examining structural failures in ACA preventive care coverage with a focus on colorectal cancer screening in Florida's 2026 healthcare landscape.</p>
+  <div class="authors-grid">
+    <div class="author-card reveal">
+      <div class="author-role">Medical Student</div>
+      <div class="author-name">M, BS</div>
+      <div class="author-affil">Orlando College of Osteopathic Medicine<br>Winter Garden, FL</div>
+    </div>
+    <div class="author-card reveal reveal-delay-1">
+      <div class="author-role">Faculty Co-Author</div>
+      <div class="author-name">William B. Schurr, D.O.</div>
+      <div class="author-affil">Orlando College of Osteopathic Medicine<br>Winter Garden, FL</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <strong>The Paradox of Preventive Coverage</strong>
+    Financial Barriers &amp; Guideline Lags in Florida's 2026 Healthcare Landscape<br>
+    Orlando College of Osteopathic Medicine · Health Policy Competition
+  </div>
+  <div class="footer-note">
+    Statistical sources: Commonwealth Fund 2022, KFF 2026, CDC/BRFSS Florida, USPSTF 2021, Goede et al. MISCAN/SimCRC model. AI tool for general educational purposes only — not medical or legal advice.
+  </div>
+</footer>
+
+<script>
+  // ── NAV SCROLL ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── REVEAL ON SCROLL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── CHAT ──
+  const SYSTEM_PROMPT = `You are a knowledgeable, empathetic health policy assistant helping everyday Americans understand their insurance coverage under the Affordable Care Act (ACA). You specialize in:
+
+1. PREVENTIVE CARE COVERAGE: Explaining which USPSTF Grade A and B services must be covered at zero cost-sharing under ACA Section 2713. Key screenings include: colorectal cancer (colonoscopy or stool test for adults 45+), mammography (women 40+), cervical cancer (Pap smear, HPV test), lung cancer (low-dose CT for heavy smokers 50-80), osteoporosis, diabetes, hypertension, depression, obesity, STIs, and many more.
+
+2. FLORIDA-SPECIFIC CONTEXT: Florida has not expanded Medicaid. Florida SB 158 (effective Jan 2026) eliminates cost-sharing for supplemental breast imaging follow-up on state-regulated plans only (not ERISA employer plans). 15.5% of working-age Floridians are uninsured.
+
+3. BILLING TRAPS: Explain the dual billing trap (CPT modifier -25, when a symptom mentioned in a preventive visit triggers a separate E&M charge), the diagnostic reclassification trap (when a colonoscopy finds a polyp and is reclassified as diagnostic), and the age gap (under-45 adults not covered despite rising CRC rates).
+
+4. MEDICATIONS & PROCEDURES: Explain that preventive medications (like statins for high-risk patients, PrEP for HIV prevention, aspirin for certain adults, tobacco cessation medications) may be covered at no cost under ACA. Diagnostic procedures (triggered by symptoms or abnormal results) typically are NOT covered at zero cost and subject to deductibles.
+
+5. HOW TO ADVOCATE: Advise patients to ask their insurer in writing about coverage BEFORE a visit, request itemized bills, appeal unexpected charges, and ask their provider to code visits correctly.
+
+Keep answers clear, friendly, and accessible — avoid medical jargon when possible. Always end responses with a brief reminder that you provide general information only, and encourage them to verify with their specific insurer and consult a healthcare provider for personal medical decisions.
+
+When uncertain about a specific plan's details, say so clearly and explain what the ACA requires versus what individual plans may vary.`;
+
+  let chatHistory = [];
+
+  function useChip(btn) {
+    const text = btn.textContent;
+    document.getElementById('chat-input').value = text;
+    btn.style.opacity = '0.4';
+    setTimeout(() => btn.style.opacity = '', 2000);
+    sendMessage();
+  }
+
+  function appendMsg(role, text) {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = `msg msg-${role === 'user' ? 'user' : 'bot'}`;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function showTyping() {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg msg-typing';
+    div.id = 'typing-indicator';
+    div.textContent = 'Thinking…';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('chat-send');
+    const apiKey = document.getElementById('api-key-input').value.trim();
+    const provider = document.getElementById('provider-select').value;
+    const text = input.value.trim();
+
+    if (!text) return;
+    if (!apiKey) {
+      appendMsg('bot', 'Please paste your API key in the field above to use the assistant. Your key is never stored — it stays in your browser only.');
+      return;
+    }
+
+    input.value = '';
+    sendBtn.disabled = true;
+    appendMsg('user', text);
+    chatHistory.push({ role: 'user', content: text });
+    showTyping();
+
+    try {
+      let reply = '';
+
+      if (provider === 'claude') {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: 'claude-opus-4-5',
+            max_tokens: 600,
+            system: SYSTEM_PROMPT,
+            messages: chatHistory
+          })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        reply = data.content[0].text;
+
+      } else {
+        const msgs = [{ role: 'system', content: SYSTEM_PROMPT }, ...chatHistory];
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            max_tokens: 600,
+            messages: msgs
+          })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        reply = data.choices[0].message.content;
+      }
+
+      chatHistory.push({ role: 'assistant', content: reply });
+      removeTyping();
+      appendMsg('bot', reply);
+
+    } catch (err) {
+      removeTyping();
+      appendMsg('bot', `⚠️ Error: ${err.message}. Please check your API key and try again.`);
+    }
+
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  document.getElementById('chat-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+</script>
+</body>
+</html>
