@@ -730,11 +730,28 @@ ${zip}`;
   }
 
   function openEmail() {
-    const body = encodeURIComponent(document.getElementById('email-body').value);
     const rep = currentReps;
-    const to = encodeURIComponent(rep.ss_email + ',' + rep.sh_email);
-    const subject = encodeURIComponent('Support Preventive Cancer Screening Access in Florida');
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    const bodyText = document.getElementById('email-body').value;
+    const subject = 'Support Preventive Cancer Screening Access in Florida';
+  
+    // Build mailto - state reps get email, federal rep gets contact form
+    const to = rep.ss_email + ',' + rep.sh_email;
+    const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+  
+    // Try mailto first
+    const link = document.createElement('a');
+    link.href = mailtoUrl;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  
+    // After a short delay, also prompt them to contact their federal rep via web form
+    setTimeout(() => {
+      const openFed = confirm(`✅ Email opened for your state representatives.\n\nYour U.S. Rep (${rep.us}) requires a web contact form.\n\nClick OK to open it now.`);
+      if (openFed) window.open(rep.us_url, '_blank');
+    }, 800);
   }
 
   function copyEmail() {
