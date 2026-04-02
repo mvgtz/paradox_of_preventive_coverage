@@ -515,6 +515,107 @@
 
   // REP LOOKUP
   const FL_REPS = {
+    // ── ORANGE COUNTY ──────────────────────────────────────────────────────
+  
+    // Winter Park (existing, keeping)
+    "32789": { city:"Winter Park", ss:"Linda Stewart (D-13)", sh:"Carolina Amesty (R-44)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"amesty.carolina@myfloridahouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32792": { city:"Winter Park", ss:"Linda Stewart (D-13)", sh:"Susan Plasencia (R-37)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"susan.plasencia@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Orlando central/east (existing, keeping)
+    "32801": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"anna.eskamani@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32803": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"anna.eskamani@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32804": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"anna.eskamani@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Orlando NW / Pine Hills (updated D-15 senator)
+    "32808": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Johanna López (D-43)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"johanna.lopez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Maitland (existing, keeping)
+    "32751": { city:"Maitland", ss:"Linda Stewart (D-13)", sh:"Carolina Amesty (R-44)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"amesty.carolina@myfloridahouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Apopka (existing, keeping — note D-44 per existing data; HB-44 is now Jennifer Harris)
+    "32712": { city:"Apopka", ss:"Dennis Baxley (R-12)", sh:"Jennifer Harris (D-44)", us:"Daniel Webster (R-FL11)", ss_email:"baxley.dennis.web@flsenate.gov", sh_email:"rita.harris@flhouse.gov", us_url:"https://webster.house.gov/contact" },
+  
+    // New Orange County zips ─────────────────────────────────────
+  
+    // Apopka area
+    "32703": { city:"Apopka", ss:"LaVon Bracy Davis (D-15)", sh:"Doug Bankson (R-39)", us:"Daniel Webster (R-FL11)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"doug.bankson@flhouse.gov", us_url:"https://webster.house.gov/contact" },
+  
+    // Orlando south/southwest — SD-15 (Ocoee, MetroWest)
+    "32811": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Bruce Antone (D-41)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"bruce.antone@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32818": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"RaShon Young (D-40)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"rashon.young@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32835": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Bruce Antone (D-41)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"bruce.antone@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Ocoee
+    "34761": { city:"Ocoee", ss:"LaVon Bracy Davis (D-15)", sh:"RaShon Young (D-40)", us:"Daniel Webster (R-FL11)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"rashon.young@flhouse.gov", us_url:"https://webster.house.gov/contact" },
+  
+    // Orlando SW / International Drive / Dr. Phillips (SD-15)
+    "32809": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Bruce Antone (D-41)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"bruce.antone@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32819": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Leonard Spencer (D-45)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"leonard.spencer@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32821": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Leonard Spencer (D-45)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"leonard.spencer@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Orlando south / Hunters Creek (SD-17, SD-25)
+    "32805": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Johanna López (D-43)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"johanna.lopez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32806": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"anna.eskamani@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32807": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"anna.eskamani@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32810": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"RaShon Young (D-40)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"rashon.young@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32812": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32814": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"anna.eskamani@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32817": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Susan Plasencia (R-37)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"susan.plasencia@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32820": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Rachel Plakon (R-36)", us:"Michael Waltz (R-FL6)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"rachel.plakon@flhouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32822": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32824": { city:"Orlando", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32825": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Susan Plasencia (R-37)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"susan.plasencia@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32826": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"David Smith (R-38)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"david.smith@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32827": { city:"Orlando", ss:"Kristen Arrington (D-25)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32828": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"David Smith (R-38)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"david.smith@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32829": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32831": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"David Smith (R-38)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"david.smith@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32832": { city:"Orlando", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32833": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Rachel Plakon (R-36)", us:"Michael Waltz (R-FL6)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"rachel.plakon@flhouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32836": { city:"Orlando", ss:"LaVon Bracy Davis (D-15)", sh:"Leonard Spencer (D-45)", us:"Maxwell Frost (D-FL10)", ss_email:"bracydavis.lavon.web@flsenate.gov", sh_email:"leonard.spencer@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32837": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Leonard Spencer (D-45)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"leonard.spencer@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32839": { city:"Orlando", ss:"Carlos G. Smith (D-17)", sh:"Johanna López (D-43)", us:"Maxwell Frost (D-FL10)", ss_email:"smith.carlos.web@flsenate.gov", sh_email:"johanna.lopez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // Winter Garden / Windermere / Horizon West (existing + new)
+    "34787": { city:"Winter Garden", ss:"Dennis Baxley (R-12)", sh:"Keith Truenow (R-33)", us:"Daniel Webster (R-FL11)", ss_email:"baxley.dennis.web@flsenate.gov", sh_email:"truenow.keith@myfloridahouse.gov", us_url:"https://webster.house.gov/contact" },
+    "34786": { city:"Windermere", ss:"Dennis Baxley (R-12)", sh:"Keith Truenow (R-33)", us:"Daniel Webster (R-FL11)", ss_email:"baxley.dennis.web@flsenate.gov", sh_email:"truenow.keith@myfloridahouse.gov", us_url:"https://webster.house.gov/contact" },
+    "34787": { city:"Winter Garden", ss:"Dennis Baxley (R-12)", sh:"Keith Truenow (R-33)", us:"Daniel Webster (R-FL11)", ss_email:"baxley.dennis.web@flsenate.gov", sh_email:"truenow.keith@myfloridahouse.gov", us_url:"https://webster.house.gov/contact" },
+  
+    // Zellwood / Plymouth area
+    "32798": { city:"Zellwood", ss:"Dennis Baxley (R-12)", sh:"Doug Bankson (R-39)", us:"Daniel Webster (R-FL11)", ss_email:"baxley.dennis.web@flsenate.gov", sh_email:"doug.bankson@flhouse.gov", us_url:"https://webster.house.gov/contact" },
+  
+    // Lake Nona / Medical City (SD-25)
+    // 32827, 32824, 32832 already covered above
+  
+    // ── SEMINOLE COUNTY ─────────────────────────────────────────────────────
+    // Existing
+    "32765": { city:"Oviedo", ss:"Jason Brodeur (R-9)", sh:"David Smith (R-28)", us:"Michael Waltz (R-FL6)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"smith.david@myfloridahouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32771": { city:"Sanford", ss:"Jason Brodeur (R-9)", sh:"David Smith (R-28)", us:"Michael Waltz (R-FL6)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"smith.david@myfloridahouse.gov", us_url:"https://waltz.house.gov/contact" },
+    // New Seminole
+    "32708": { city:"Winter Springs", ss:"Jason Brodeur (R-9)", sh:"David Smith (R-28)", us:"Michael Waltz (R-FL6)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"david.smith@flhouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32730": { city:"Casselberry", ss:"Jason Brodeur (R-9)", sh:"Susan Plasencia (R-37)", us:"Maxwell Frost (D-FL10)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"susan.plasencia@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32746": { city:"Lake Mary", ss:"Jason Brodeur (R-9)", sh:"Erika Booth (R-35)", us:"Michael Waltz (R-FL6)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"erika.booth@flhouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32750": { city:"Longwood", ss:"Jason Brodeur (R-9)", sh:"Erika Booth (R-35)", us:"Michael Waltz (R-FL6)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"erika.booth@flhouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32779": { city:"Longwood", ss:"Jason Brodeur (R-9)", sh:"Rachel Plakon (R-36)", us:"Michael Waltz (R-FL6)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"rachel.plakon@flhouse.gov", us_url:"https://waltz.house.gov/contact" },
+    "32714": { city:"Altamonte Springs", ss:"Jason Brodeur (R-9)", sh:"Susan Plasencia (R-37)", us:"Maxwell Frost (D-FL10)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"susan.plasencia@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "32701": { city:"Altamonte Springs", ss:"Jason Brodeur (R-9)", sh:"Susan Plasencia (R-37)", us:"Maxwell Frost (D-FL10)", ss_email:"brodeur.jason.web@flsenate.gov", sh_email:"susan.plasencia@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+  
+    // ── OSCEOLA COUNTY ──────────────────────────────────────────────────────
+    "34741": { city:"Kissimmee", ss:"Kristen Arrington (D-25)", sh:"Johanna López (D-43)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"johanna.lopez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34743": { city:"Kissimmee", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34744": { city:"Kissimmee", ss:"Kristen Arrington (D-25)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34746": { city:"Kissimmee", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34747": { city:"Celebration", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Daniel Webster (R-FL11)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://webster.house.gov/contact" },
+    "34758": { city:"Poinciana", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34759": { city:"Poinciana", ss:"Kristen Arrington (D-25)", sh:"Jon Albert (R-48)", us:"Darren Soto (D-FL9)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jon.albert@flhouse.gov", us_url:"https://soto.house.gov/contact" },
+    "34769": { city:"St. Cloud", ss:"Kristen Arrington (D-25)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34771": { city:"St. Cloud", ss:"Kristen Arrington (D-25)", sh:"Jose Alvarez (D-46)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jose.alvarez@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+    "34772": { city:"St. Cloud", ss:"Kristen Arrington (D-25)", sh:"Jon Albert (R-48)", us:"Darren Soto (D-FL9)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jon.albert@flhouse.gov", us_url:"https://soto.house.gov/contact" },
+    "34773": { city:"St. Cloud", ss:"Kristen Arrington (D-25)", sh:"Jon Albert (R-48)", us:"Darren Soto (D-FL9)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jon.albert@flhouse.gov", us_url:"https://soto.house.gov/contact" },
+    "33896": { city:"Davenport", ss:"Kristen Arrington (D-25)", sh:"Jon Albert (R-48)", us:"Darren Soto (D-FL9)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"jon.albert@flhouse.gov", us_url:"https://soto.house.gov/contact" },
+    "33848": { city:"Intercession City", ss:"Kristen Arrington (D-25)", sh:"Paula Stark (R-47)", us:"Maxwell Frost (D-FL10)", ss_email:"arrington.kristen.web@flsenate.gov", sh_email:"paula.stark@flhouse.gov", us_url:"https://frost.house.gov/contact" },
+
+
     "32789": { city:"Winter Park", ss:"Linda Stewart (D-13)", sh:"Carolina Amesty (R-44)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"amesty.carolina@myfloridahouse.gov", us_url:"https://frost.house.gov/contact" },
     "32801": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"eskamani.anna@myfloridahouse.gov", us_url:"https://frost.house.gov/contact" },
     "32803": { city:"Orlando", ss:"Linda Stewart (D-13)", sh:"Anna Eskamani (D-42)", us:"Maxwell Frost (D-FL10)", ss_email:"stewart.linda.web@flsenate.gov", sh_email:"eskamani.anna@myfloridahouse.gov", us_url:"https://frost.house.gov/contact" },
